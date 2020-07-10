@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <header>
+        <img src="{{ asset('image/header.jpg') }}" alt="rust-texture">
+        <h1>
+            <a href="{{ path("monblog_home") }}">
+                Bienvenue sur MonBlog !
+            </a>
+        </h1>
+        
+        <nav>
+            {% if is_granted('ROLE_USER') %}
+            <ul>
+                <li>
+                    Bienvenue {{ app.user.fullName }} -
+                    (<a href="{{ path("monblog_credit") }}">{{ app.user.getBalance | displayCurrencyFormatter | raw }}
+                        {% set currencySymbol = "currency."~app.user.currency~".symbol" %}
+                        {{ currencySymbol | trans }}
+                    </a>)
+                </li>
+                <li><a href="{{ path("app_logout") }}">logout</a></li>
+            </ul>
+            {% else %}
+            <ul>
+                <li><a href="{{ path("app_login") }}">Login</a></li>
+                <li><a href="{{ path("app_register") }}">Register</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+    </header>
+
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <img src="{{ asset('image/footer.jpg') }}" alt="footer rust texture">
+        <nav class="row">
+            <div class="col-sm-12 col-md-6 col-lg-3">
+                <p><a href="#">- Qui sommes nous ?</a></p>
+                <p><a href="#">- CGV</a></p>
+                <p><a href="#">- Nous contacter</p>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3">
+                <p><a href="#">- Nos valeur</a></p>
+                <p><a href="#">- Devenir blogueur de MonBlog !</a></p>
+                <p><a href="#">- Rejoindre l'équipe</a></p>
+            </div>
+        </nav>
+
+        <div class="copyright">
+            <p>
+                ©DreamFlake 2002 - {{ "now" | date("Y") }} all right reserved for all countries including Groland
+            </p>
+        </div>
+    </footer>
+
+{% endblock %}

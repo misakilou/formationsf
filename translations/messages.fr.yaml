@@ -1,0 +1,8 @@
+currency:
+  EUR:
+    symbol: €
+    name : euro
+  USD:
+    symbol: $
+    name : US Dollar
+

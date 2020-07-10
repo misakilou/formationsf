@@ -1,0 +1,41 @@
+{% extends("layout.html.twig") %}
+
+{% block title %}
+    {{ parent() }} - Accueil
+{% endblock title %}
+
+{% block content %}
+    <h2>Accueil</h2>
+    <ul>
+        {% if is_granted('ROLE_ADMIN') %}
+        <li>
+            <a href="{{ path('monblog_author_create') }}">Creer un auteur</a>
+        </li>
+        {% endif %}
+        <li>
+            <a href="{{ path('monblog_author_showAll') }}">Tous les auteurs</a>
+        </li>
+    </ul>
+
+
+    <ul>
+        {% if is_granted('ROLE_ADMIN') %}
+        <li>
+            <a href="{{ path('monblog_article_create') }}">Creer un article</a>
+        </li>
+        {% endif %}
+        <li>
+            <a href="{{ path('monblog_article_showAll') }}">Tous les articles</a>
+        </li>
+    </ul>
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <ul>
+        <li>
+            <a href="{{ path('monblog_category_showAll') }}">Tous les tags</a>
+        </li>
+    </ul>
+    {% endif %}
+
+
+{% endblock content %}

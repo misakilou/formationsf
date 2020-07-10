@@ -1,0 +1,11 @@
+{% extends('layout.html.twig') %}
+
+{% block content %}
+    <h2>bloggeur {{ author.fullname }}  </h2>
+    <p> Titre : {{ author.title }} </p>
+    <p>Prenom : {{ author.firstName }} </p>
+    <p>  Nom : {{ author.lastName }}</p>
+    <p>  Date de naissance : {{ author.birthDate | date('d/m/Y') }} ({{ author.birthDate | age }} ans) </p>
+    <p>  Bio : {{ author.biography }}</p>
+
+{% endblock content %}

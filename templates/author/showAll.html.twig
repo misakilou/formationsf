@@ -1,0 +1,53 @@
+{% extends('layout.html.twig') %}
+
+{% block content %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('monblog_author_create') }}">Creer un auteur</a>
+    {% endif %}
+
+    {% if allAuthors is empty %}
+        Aucun auteur
+    {% else %}
+        <h2>Tous nos bloggeurs</h2>
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>Titre</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Date de naissance</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                <th>Action</th>
+                {% endif %}
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for author in allAuthors %}
+                <tr class="removable-element">
+                    <td>{{ author.title }}</td>
+                    <td>{{ author.firstName }}</td>
+                    <td>
+                        <a href="{{ path('monblog_author_show', {id:author.id }) }}">
+                            {{ author.LastName }}
+                        </a>
+                    </td>
+                    <td>{{ author.birthDate | date('d/m/Y')}}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <td>
+                        <a href="{{ path('monblog_author_update', {id:author.id }) }}">Modifier</a>
+                        <a class='ajax-remove-trigger' href="#" data-path="{{ path('monblog_author_delete', {id:author.id }) }}">Supprimer</a>
+                    </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type='text/javascript' src='{{ asset("js/ajaxRemove.js") }}?bogus={{ 'now' | date('Y-m-d H:i:s') }}'></script>
+{% endblock javascripts %}

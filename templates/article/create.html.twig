@@ -1,0 +1,10 @@
+{% extends('layout.html.twig') %}
+
+{% block content %}
+    {{ form_start(form, {'attr':{'novalidate':'novalidate'} }) }}
+        {{ form_row(form.author) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.content, { 'attr':{'cols':'60' , 'rows':'20'} })  }}
+    {{ form_end(form) }}
+{% endblock content%}
+

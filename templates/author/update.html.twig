@@ -1,0 +1,13 @@
+{% extends('layout.html.twig') %}
+
+{% block content %}
+    <h2>Modification de {{ form.title.vars.value }}</h2>
+    {{ form_start(form, {'attr':{'novalidate':'novalidate'} }) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.firstName) }}
+        {{ form_row(form.LastName) }}
+        {{ form_row(form.birthDate) }}
+        {{ form_row(form.biography, { 'attr':{'cols':'60' , 'rows':'20'} })  }}
+    {{ form_end(form) }}
+{% endblock content%}
+

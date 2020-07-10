@@ -1,0 +1,23 @@
+{% extends('layout.html.twig') %}
+
+{% block content %}
+    {{ form(form) }}
+    {% if allCategorys is empty %}
+        Aucun Tags
+    {% else %}
+        <ul>
+        {%  for category in allCategorys %}
+            <li class="removable-element">
+                <a class='ajax-remove-trigger' href="#" data-path="{{ path('monblog_category_delete' , {id: category.id}) }}">Supprimer</a>
+                {{ category.title }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type='text/javascript' src='{{ asset("js/ajaxRemove.js") }}?bogus={{ 'now' | date('Y-m-d H:i:s') }}'></script>
+{% endblock javascripts %}
