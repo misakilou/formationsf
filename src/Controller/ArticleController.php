@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Exception\PaymentException;
 use App\Form\ArticleCreationFormType;
 use App\Service\ConvertCurrencyService;
+use App\Service\MercureCookieGenerator;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +27,7 @@ class ArticleController extends AbstractController
         );
     }
 
-    public function show($id , ConvertCurrencyService $converter){
+    public function show($id , ConvertCurrencyService $converter , MercureCookieGenerator $cookieGenerator){
 
         $this->denyAccessUnlessGranted('ROLE_USER');
         /** @var User $user */
@@ -54,13 +55,18 @@ class ArticleController extends AbstractController
 
         $em->flush();
 
-        return $this->render("article/show.html.twig",
+        $cookie = $cookieGenerator->generatePrivate($article);
+        $response = $this->render("article/show.html.twig",
             [
                 'article' => $article,
 
             ]
         );
+
+        $response->headers->set("set-cookie", $cookie);
+        return $response;
     }
+
 
     public function create(Request $request){
         if(!$this->isGranted('ROLE_ADMIN')){
@@ -101,7 +107,7 @@ class ArticleController extends AbstractController
         }
 
         $form = $this->createForm(ArticleCreationFormType::class, $article);
-        $form->handleRequest($request);
+        $form->handleRequest(546);
 
         if($form->isSubmitted() && $form->isValid()){
 

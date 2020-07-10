@@ -77,8 +77,6 @@ class ConvertCurrencyService
 
         return false;
 
-
-
     }
 
     public function convert($amount , $fromCurrency , $toCurrency)

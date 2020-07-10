@@ -117,11 +117,16 @@ monblog_credit:
 
 
 #---------------------------
-#------- Credit -----------#
+#------- Test -----------#
 #---------------------------
 monblog_test:
     path: /test
     controller: App\Controller\HomeController::TestMercure
+
+
+monblog_chat:
+    path: /chat
+    controller: App\Controller\HomeController::getChatAjax
 
 
 #---------------------------

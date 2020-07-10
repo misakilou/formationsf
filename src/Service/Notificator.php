@@ -27,7 +27,15 @@ class Notificator
 
     }
 
-    public function privateNotification(){
+    public function privateNotification(string $topics ,  array $params){
+        $update = new Update(
+            $topics,
+            json_encode($params),
+            true
+        );
+
+        $publisher = $this->publisher;
+        $publisher($update);
 
     }
 

@@ -54,3 +54,9 @@ services:
         arguments:
             $apiKey: '%env(CLA_SECRET)%'
             $baseUrl: '%env(CLA_BASE_URL)%'
+
+
+    App\Service\MercureCookieGenerator:
+        lazy: true
+        arguments:
+            $secret: '%env(MERCURE_JWT_KEY)%'

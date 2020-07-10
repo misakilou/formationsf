@@ -4,17 +4,76 @@
     <h2>
         Titre : {{ article.title }}
     </h2>
-    <p>
-        par
-        <a href="{{ path('monblog_author_show' , {id : article.author.id}) }}">
-            {{ article.author.fullname }}
-        </a>
+    <div class="container">
+        <div class="row">
 
-    </p>
+            <div class="col-9">
+                <p>
+                    par
+                    <a href="{{ path('monblog_author_show' , {id : article.author.id}) }}">
+                        {{ article.author.fullname }}
+                    </a>
 
-    <p>
-        Contenu : {{ article.content }}
-    </p>
+                </p>
+
+                <p>
+                    Contenu : {{ article.content }}
+                </p>
+            </div>
+
+            <div class="col-3">
+                <textarea id='allMessages'>
+
+                </textarea>
+                <input id='message' type="text" name="message" data-article-id="{{ article.id }}"><input id='sendButton' type="button" value="send">
+            </div>
+
+        </div>
+
+    </div>
+
+
+
 
 
 {% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        // URL is a built-in JavaScript class to manipulate URLs
+        const url = new URL('http://localhost:3000/.well-known/mercure');
+        url.searchParams.append('topic', 'http://monblog/test-socket/{{ article.id }}');
+
+        const eventSource = new EventSource(url);
+
+        eventSource.onmessage = event =>
+        {
+            console.log(JSON.parse(event.data));
+            let data =  JSON.parse(event.data)
+            $('#allMessages').append(data.message+'\n');
+        }
+
+        $('#sendButton').click(function(e){
+            e.preventDefault();
+            let message = $('#message').val();
+            let articleId = $('#message').attr('data-article-id');
+
+            console.log(message);
+
+            $.post({
+                url: '{{ path('monblog_chat') }}',
+                data:{
+                    message: message ,
+                    id: articleId,
+                }
+            });
+
+
+        })
+
+
+    </script>
+
+{% endblock %}
